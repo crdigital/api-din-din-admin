@@ -1,8 +1,9 @@
-const express = require("express");
-const CursosController = require("../controllers/cursos.controller");
+import express from "express";
+import CursosController from "../controllers/cursos.controller";
 
 const routes = express.Router();
 
+routes.get("/", CursosController.getAll);
 routes.post("/cursos", CursosController.cadastrarCurso);
 
-module.exports = routes;
+export default routes;
