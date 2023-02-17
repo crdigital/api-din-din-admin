@@ -1,10 +1,28 @@
 import { Request, Response } from "express";
 
-const listaDeCursos = require("../models/cursos.json");
-const fs = require("fs");
+import listaDeCursos from "../models/cursos.json";
+import fs from "fs";
+
+// inserido na aula
+interface Curso {
+  titulo: string;
+  professor: string;
+  descricao: string;
+}
 
 const CursoController = {
-  cadastrarCurso(req:Request, res: Response) {
+  getAll(req: Request, res: Response) {
+    try {
+      let jsonData = fs.readFileSync("./models/cursos.json", "utf8");
+      res.status(200).json(jsonData);     
+    } catch (error) {
+      res.status(400).json({message:`Erro na requisição: ${error}`});
+    }
+  },
+  cadastrarCurso(req: Request, res: Response) {
+    // inserido na aula
+    listaDeCursos as Curso[];
+
     const { titulo, descricao, professor } = req.body;
 
     if (!titulo || !descricao || !professor) {
@@ -12,6 +30,7 @@ const CursoController = {
         .status(400)
         .json({ error: "Você precisa passar os atributos corretamente" });
     }
+
 
     listaDeCursos.push({
       titulo,
@@ -25,4 +44,4 @@ const CursoController = {
   },
 };
 
-module.exports = CursoController;
+export default CursoController;
